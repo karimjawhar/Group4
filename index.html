@@ -21,3 +21,125 @@
             filter by region or country.
           </p>
         </div>
+        
+        <div class="hero-actions">
+          <div class="instruction-row" aria-label="How to use the page">
+            <span class="instruction-chip">Hover to inspect</span>
+            <span class="instruction-chip">Click to lock a country</span>
+            <span class="instruction-chip">Filter by region</span>
+            <span class="instruction-chip">Compare rank shifts</span>
+          </div>
+        </div>
+      </header>
+
+      <nav class="story-nav card" aria-label="Story chapters">
+        <a href="#chapter-baseline" class="story-link is-active" data-chapter-link="chapter-baseline">
+          <span class="story-link-index">01</span>
+          <span class="story-link-label">Baseline</span>
+        </a>
+        <a href="#chapter-relationship" class="story-link" data-chapter-link="chapter-relationship">
+          <span class="story-link-index">02</span>
+          <span class="story-link-label">Relationship</span>
+        </a>
+        <a href="#chapter-comparison" class="story-link" data-chapter-link="chapter-comparison">
+          <span class="story-link-index">03</span>
+          <span class="story-link-label">Comparison</span>
+        </a>
+        <a href="#chapter-fingerprint" class="story-link" data-chapter-link="chapter-fingerprint">
+          <span class="story-link-index">04</span>
+          <span class="story-link-label">Fingerprint</span>
+        </a>
+        <a href="#chapter-rank-shift" class="story-link" data-chapter-link="chapter-rank-shift">
+          <span class="story-link-index">05</span>
+          <span class="story-link-label">Rank Shift</span>
+        </a>
+        <a href="#chapter-regional" class="story-link" data-chapter-link="chapter-regional">
+          <span class="story-link-index">06</span>
+          <span class="story-link-label">Regions</span>
+        </a>
+        <a href="#chapter-reflection" class="story-link" data-chapter-link="chapter-reflection">
+          <span class="story-link-index">07</span>
+          <span class="story-link-label">Reflection</span>
+        </a>
+      </nav>
+
+      <div class="intro-meta" aria-label="Selected filter controls">
+        <span id="selection-status" class="status-pill" aria-live="polite">Selected Filter: None</span>
+        <button id="reset-selection" class="reset-btn" type="button">Reset selection</button>
+      </div>
+
+      <section class="kpi-grid" aria-label="Story summary">
+        <article class="card kpi-card">
+          <p class="kpi-label">Current focus</p>
+          <p id="kpi-focus" class="kpi-value">All countries</p>
+          <p class="kpi-note">Updates when you hover or select a region or country.</p>
+        </article>
+
+        <article class="card kpi-card">
+          <p class="kpi-label">Extreme events</p>
+          <p id="kpi-events" class="kpi-value">Loading</p>
+          <p class="kpi-note">Derived directly from the cleaned climate-event dataset.</p>
+        </article>
+
+        <article class="card kpi-card">
+          <p class="kpi-label">Highest burden region</p>
+          <p id="kpi-region" class="kpi-value">Loading</p>
+          <p class="kpi-note">The regional view highlights where total affected population accumulates fastest.</p>
+        </article>
+
+        <article class="card kpi-card">
+          <p class="kpi-label">Largest rank shift</p>
+          <p id="kpi-shift" class="kpi-value">Loading</p>
+          <p class="kpi-note">A top-band chart reveals countries whose climate burden outpaces their population rank.</p>
+        </article>
+      </section>
+
+      <main id="main-story" class="story-grid">
+        <section class="card story-chapter section-time-trend" id="chapter-baseline" data-chapter="Baseline">
+          <div class="section-heading">
+            <p class="chapter-kicker">Chapter 1</p>
+            <h2>Global population growth raises the baseline of exposure</h2>
+            <p>
+              The population dataset provides the long-run context for the story. As total population increases,
+              more people can be affected even before we compare differences between individual countries.
+            </p>
+          </div>
+          <div id="line-chart" class="chart-container chart-medium"></div>
+        </section>
+
+        <section class="card story-chapter section-main-insight" id="chapter-relationship" data-chapter="Relationship">
+          <div class="section-heading">
+            <p class="chapter-kicker">Chapter 2</p>
+            <h2>Population size and climate burden move together, but not evenly</h2>
+            <p>
+              The core relationship chart compares 2022 population with total affected population. Bubble size adds a
+              third variable: average climate risk score.
+            </p>
+          </div>
+          <p class="section-note">Larger bubbles indicate higher average climate risk. Colors encode continent.</p>
+          <div id="scatter-chart" class="chart-container chart-large"></div>
+        </section>
+
+        <section class="card story-chapter section-comparison" id="chapter-comparison" data-chapter="Comparison">
+          <div class="section-heading">
+            <p class="chapter-kicker">Chapter 3</p>
+            <h2>Ranking the countries exposes different types of vulnerability</h2>
+            <p>
+              These linked rankings show how the same selection can surface different stories depending on whether
+              you compare population scale or the frequency of extreme events.
+            </p>
+          </div>
+          <div class="comparison-grid">
+            <div class="chart-card">
+              <h3>Most Populated Countries</h3>
+              <p class="mini-caption">Top countries in the filtered set by 2022 population.</p>
+              <div id="population-bar-chart" class="chart-container"></div>
+            </div>
+            <div class="chart-card">
+              <h3>Extreme Events by Country</h3>
+              <p class="mini-caption">Top countries in the filtered set by recorded extreme events.</p>
+              <div id="events-bar-chart" class="chart-container"></div>
+            </div>
+          </div>
+        </section>
+

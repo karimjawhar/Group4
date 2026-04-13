@@ -1,6 +1,5 @@
 /**
  * Line Chart
- * 
  * Displays global population growth trend over time from 1970-2022.
  * Shows historical baseline that contextualizes climate burden increases.
  * Interactive points display year and population on hover.

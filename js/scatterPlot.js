@@ -1,6 +1,5 @@
 /**
  * Scatter Plot Chart
- * 
  * Visualizes the relationship between country population and affected population by climate events.
  * Encodes continent using color and climate risk using bubble size.
  * Supports hover interactions with tooltips and click to select countries.

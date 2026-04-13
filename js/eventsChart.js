@@ -59,6 +59,11 @@ export default class EventsBarChart {
     this.lastData = data;
     this.state = { ...state };
     
+    // Interrupt any ongoing transitions to prevent conflicts on rapid updates
+    this.svg.interrupt();
+    this.barLayer.selectAll("*").interrupt();
+    this.labelLayer.selectAll("*").interrupt();
+    
     // Create fresh transition for this update cycle
     const transition = createChartTransition();
 
@@ -108,12 +113,8 @@ export default class EventsBarChart {
 
     const bars = this.barLayer.selectAll("rect.bar-rect").data(chartData, (d) => d.country);
 
-    bars
-      .exit()
-      .transition(transition)
-      .attr("width", 0)
-      .style("opacity", 0)
-      .remove();
+    // Remove exiting bars immediately to prevent conflicts
+    bars.exit().remove();
 
     const barsEnter = bars
       .enter()
@@ -223,14 +224,15 @@ export default class EventsBarChart {
   /**
    * Computes responsive dimensions from container bounding box.
    * Returns width, height, and inner dimensions after subtracting margins.
+   * Uses fixed height to prevent vertical expansion on interactions.
    */
   getDimensions() {
     // Get container bounding box
     const bounds = this.root.node().getBoundingClientRect();
     
-    // Compute responsive dimensions
+    // Compute responsive dimensions with fixed height
     const width = Math.max(320, bounds.width || 430);
-    const height = Math.max(360, bounds.height || 360);
+    const height = 520; // Fixed height prevents chart expansion
     const innerWidth = width - this.margin.left - this.margin.right;
     const innerHeight = height - this.margin.top - this.margin.bottom;
 

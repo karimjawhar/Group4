@@ -7,7 +7,7 @@
  * 
  * Key responsibilities:
  * - Load and validate CSV datasets
- * - Initialize 7 interactive D3 chart components
+ * - Initialize 8 interactive D3 chart components (including world map)
  * - Set up bidirectional filtering and linked highlighting
  * - Manage story navigation with IntersectionObserver
  * - Handle reset button and error states
@@ -19,6 +19,7 @@ import EventsBarChart from "./eventsChart.js";
 import HeatmapChart from "./heatmapChart.js";
 import { initialState, wireInteractions } from "./interactions.js";
 import LineChart from "./lineChart.js";
+import MapChart from "./mapChart.js";
 import RankShiftChart from "./rankShiftChart.js";
 import RegionChart from "./regionChart.js";
 import ScatterPlot from "./scatterPlot.js";
@@ -121,57 +122,64 @@ const app = async () => {
     // Initialize interaction state (no selections yet)
     const state = { ...initialState };
 
-    // Instantiate all 7 chart components with their DOM selectors and dispatcher
-    // Chart 1: Global population trend over time (line chart)
+    // Instantiate all 8 chart components with their DOM selectors and dispatcher
+    // Chart 1: World map showing climate risk by country (choropleth map)
+    const mapChart = new MapChart({
+      selector: "#map-chart",
+      dispatcher,
+      geoData: allData.worldGeo,
+    });
+
+    // Chart 2: Global population trend over time (line chart)
     const lineChart = new LineChart({
       selector: "#line-chart",
       dispatcher,
     });
 
-    // Chart 2: Population vs affected by continent (scatter plot with tooltips)
+    // Chart 3: Population vs affected by continent (scatter plot with tooltips)
     const scatterPlot = new ScatterPlot({
       selector: "#scatter-chart",
       dispatcher,
       tooltipSelector: "#tooltip",
     });
 
-    // Chart 3: Top 10 countries by population (horizontal bar chart)
+    // Chart 4: Top 10 countries by population (horizontal bar chart)
     const populationBarChart = new PopulationBarChart({
       selector: "#population-bar-chart",
       dispatcher,
     });
 
-    // Chart 4: Top 10 countries by extreme events (horizontal bar chart)
+    // Chart 5: Top 10 countries by extreme events (horizontal bar chart)
     const eventsBarChart = new EventsBarChart({
       selector: "#events-bar-chart",
       dispatcher,
     });
 
-    // Chart 5: Climate fingerprint heatmap showing 6 burden metrics
+    // Chart 6: Climate fingerprint heatmap showing 6 burden metrics
     const heatmapChart = new HeatmapChart({
       selector: "#heatmap-chart",
       dispatcher,
       referenceData: allData.countryComparison,
     });
 
-    // Chart 6: Rank shift slope chart comparing population vs impact ranks
+    // Chart 7: Rank shift slope chart comparing population vs impact ranks
     const rankShiftChart = new RankShiftChart({
       selector: "#rank-shift-chart",
       dispatcher,
     });
 
-    // Chart 7: Regional impact summary (vertical bar chart)
+    // Chart 8: Regional impact summary (vertical bar chart)
     const regionChart = new RegionChart({
       selector: "#region-chart",
       dispatcher,
     });
 
     // Group charts by type for interaction controller
-    // countryCharts respond to country/region filters, others show all data
+    // countryCharts (including map) respond to country/region filters, others show all data
     const charts = {
       lineChart,
       regionChart,
-      countryCharts: [scatterPlot, populationBarChart, eventsBarChart, heatmapChart, rankShiftChart],
+      countryCharts: [mapChart, scatterPlot, populationBarChart, eventsBarChart, heatmapChart, rankShiftChart],
     };
 
     // Wire up all interaction logic (hover, click, filtering, tooltips, narratives)
